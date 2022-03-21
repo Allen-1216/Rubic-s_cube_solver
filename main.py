@@ -6,6 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
+import color
 #import numpy as np
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
@@ -21,22 +22,22 @@ ColorSensorS4 = ColorSensor(Port.S4)
 
 
 cube_x, cube_y, cube_z = 6, 3, 3
-cube3d = [[[0 for i in range(cube_z)] for j in range(cube_y)] for k in range(cube_x)]
+cube3d = [[[0 for i in range(cube_z)] for j in range(cube_y)] for k in range(cube_x)] #儲存顏色的3維陣列
 #cube3d = np.array(cube3d)
-print(cube3d)
+print(cube3d) #顯示空的陣列 檢查用
 print()
 
 x, y, z = 0, 0, 0
-def scan():
+def scan(): #掃描顏色
     global x, y, z
     RGB = [0, 0, 0]
     RGB = ColorSensorS4.rgb()
-    cube3d[x][y][z] = ColorSensorS4.color()
+    cube3d[x][y][z] = ColorSensorS4.color() #lego掃不到橘色，會把橘當成紅色，所以先把可辨認的顏色排除，留下紅色，再用RGB光反射作區別
     if cube3d[x][y][z] == Color.RED:
         if RGB[0] > 50:
-            cube3d[x][y][z] = ("Orange")
+            cube3d[x][y][z] = Color.ORANGE
         else:
-            cube3d[x][y][z] = ("RED")
+            cube3d[x][y][z] = Color.RED
     z += 1
     if z >= 3:
         z = 0
@@ -46,13 +47,12 @@ def scan():
         x += 1
           
 
- #掃描一面
+ #讀取一面的顏色
 ev3.speaker.beep()
 motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 1
-ev3.speaker.beep()
 motorC.run_angle(300, -235*3, then=Stop.HOLD, wait=True) #往前到中間 2
 scan()
-motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
+motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)#逆時針轉45度
 motorC.run_angle(300, 60*3, then=Stop.HOLD, wait=True) #後退掃描角落的 3
 scan()
 for r in range (0, 3):
