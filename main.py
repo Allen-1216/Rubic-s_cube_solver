@@ -45,30 +45,39 @@ def scan(): #掃描顏色
     if y >= 3:
         y = 0
         x += 1
-          
 
- #讀取一面的顏色
-ev3.speaker.beep()
-motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 1
-motorC.run_angle(300, -235*3, then=Stop.HOLD, wait=True) #往前到中間 2
-scan()
-motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)#逆時針轉45度
-motorC.run_angle(300, 60*3, then=Stop.HOLD, wait=True) #後退掃描角落的 3
-scan()
-for r in range (0, 3):
-    motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
-    motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間4、6、8
-    scan()
-    motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
-    motorC.run_angle(300, 30*3, then=Stop.HOLD, wait=True) #後退掃描角落5、7、9
-    scan()
-motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
-motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間 10
-scan()
-motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 11
-ev3.speaker.beep()
+#motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None)#馬達C後退到最底
 
-print(cube3d)
+for i in range(30):
+    #馬達A手臂翻轉方塊
+    motorA.run_angle(250, 110)
+    motorA.run_angle(250, -110)
+    motorA.run_until_stalled(-300,then=Stop.HOLD, duty_limit=None)
+    motorB.run_angle(250, 90*3)
+
+
+    #讀取一面的顏色
+    motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 1
+    motorC.run_angle(300, -235*3, then=Stop.HOLD, wait=True) #往前到中間 2
+    scan()
+    motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)#逆時針轉45度
+    motorC.run_angle(300, 60*3, then=Stop.HOLD, wait=True) #後退掃描角落的 3
+    scan()
+    for r in range (0, 3):
+        motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
+        motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間4、6、8
+        scan()
+        motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
+        motorC.run_angle(300, 30*3, then=Stop.HOLD, wait=True) #後退掃描角落5、7、9
+        scan()
+    motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
+    motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間 10
+    scan()
+    motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 11
+
+    motorA.run_angle(250,110) #馬達A手臂推
+
+    print(cube3d)
 
 
 #wait(5000)
