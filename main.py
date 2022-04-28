@@ -28,7 +28,7 @@ print(cube3d) #顯示空的陣列 檢查用
 print()
 
 x, y, z = 0, 0, 0
-def scan(): #掃描顏色
+def scan_color(): #讀取單個顏色
     global x, y, z
     RGB = [0, 0, 0]
     RGB = ColorSensorS4.rgb()
@@ -46,38 +46,52 @@ def scan(): #掃描顏色
         y = 0
         x += 1
 
-#motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None)#馬達C後退到最底
-
-for i in range(30):
-    #馬達A手臂翻轉方塊
-    motorA.run_angle(250, 110)
-    motorA.run_angle(250, -110)
-    motorA.run_until_stalled(-300,then=Stop.HOLD, duty_limit=None)
-    motorB.run_angle(250, 90*3)
-
-
-    #讀取一面的顏色
+def scan_plane():#讀取一面的各個顏色
     motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 1
     motorC.run_angle(300, -235*3, then=Stop.HOLD, wait=True) #往前到中間 2
-    scan()
+    scan_color()
     motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)#逆時針轉45度
     motorC.run_angle(300, 60*3, then=Stop.HOLD, wait=True) #後退掃描角落的 3
-    scan()
+    scan_color()
     for r in range (0, 3):
         motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
         motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間4、6、8
-        scan()
+        scan_color()
         motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
         motorC.run_angle(300, 30*3, then=Stop.HOLD, wait=True) #後退掃描角落5、7、9
-        scan()
+        scan_color()
     motorB.run_angle(300, -45*3, then=Stop.HOLD, wait=True)
     motorC.run_angle(300, -30*3, then=Stop.HOLD, wait=True) #前進掃描邊邊中間 10
-    scan()
+    scan_color()
     motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #後退到最底 11
 
-    motorA.run_angle(250,110) #馬達A手臂推
+def roll_cube():#馬達A手臂翻轉方塊&抬起
+    motorA.run_angle(250,110) #手臂推放到魔方上
+    motorA.run_angle(250, 110)
+    motorA.run_angle(250, -110)
+    motorA.run_until_stalled(-300,then=Stop.HOLD, duty_limit=None) #手臂抬起
 
-    print(cube3d)
+
+
+#掃描6面
+scan_plane() #掃U
+motorB.run_angle(300, 90*3, then=Stop.HOLD, wait=True)#底盤順時針轉90度
+roll_cube()
+scan_plane() #掃L
+motorB.run_angle(300, 90*3, then=Stop.HOLD, wait=True)#底盤順時針轉90度
+roll_cube()
+scan_plane() #掃F
+roll_cube()
+scan_plane() #掃R
+roll_cube()
+scan_plane() #掃B
+motorB.run_angle(300, -90*3, then=Stop.HOLD, wait=True)#底盤逆時針轉90度
+roll_cube()
+scan_plane() #掃D
+
+
+print(cube3d)
+
 
 
 #wait(5000)
