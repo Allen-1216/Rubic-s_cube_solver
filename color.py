@@ -1,7 +1,7 @@
 class Colors:
-    ORANGE = 0
-    RED = 1
-    YELLOW = 2
-    BLUE = 3
-    GREEN = 4
-    WHITE = 5
+    ORANGE = L
+    RED = R
+    YELLOW = F
+    BLUE = U
+    GREEN = D
+    WHITE = B

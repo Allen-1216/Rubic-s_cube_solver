@@ -21,28 +21,26 @@ motorC = Motor(Port.C) #C馬達 正值顏色手臂後退
 ColorSensorS4 = ColorSensor(Port.S4)
 
 
-cube_x, cube_y, cube_z = 6, 3, 3
-cube3d = [[[0 for i in range(cube_z)] for j in range(cube_y)] for k in range(cube_x)] #儲存顏色的3維陣列
-#cube3d = np.array(cube3d)
-print(cube3d) #顯示空的陣列 檢查用
+cube_x, cube_y = 6, 9
+cube3d = [[0 for j in range(cube_y)] for k in range(cube_x)] #儲存掃描完顏色的2維陣列
+#print(cube3d) #顯示空的陣列 檢查用
 print()
+simulation_cube3d = cube3d.copy() #複製一個新陣列 模擬方塊當下的狀態
+kociemba_cube3d = cube3d.copy() #複製一個新陣列 儲存符合kociemba排列順序
 
 x, y, z = 0, 0, 0
-def scan_color(): #讀取單個顏色
-    global x, y, z
+def scan_color(): #讀取單顆顏色
+    global x, y
     RGB = [0, 0, 0]
     RGB = ColorSensorS4.rgb()
-    cube3d[x][y][z] = ColorSensorS4.color() #lego掃不到橘色，會把橘當成紅色，所以先把可辨認的顏色排除，留下紅色，再用RGB光反射作區別
-    if cube3d[x][y][z] == Color.RED:
+    cube3d[x][y] = ColorSensorS4.color() #lego掃不到橘色，會把橘當成紅色，所以先把可辨認的顏色排除，留下紅色，再用RGB光反射作區別
+    if cube3d[x][y] == Color.RED:
         if RGB[0] > 50:
             cube3d[x][y][z] = Color.ORANGE
         else:
             cube3d[x][y][z] = Color.RED
-    z += 1
-    if z >= 3:
-        z = 0
-        y += 1
-    if y >= 3:
+    y += 1
+    if y >= 9:
         y = 0
         x += 1
 
@@ -75,6 +73,7 @@ def roll_cube():#馬達A手臂翻轉方塊&抬起
 
 #掃描6面
 scan_plane() #掃U
+
 motorB.run_angle(300, 90*3, then=Stop.HOLD, wait=True)#底盤順時針轉90度
 roll_cube()
 scan_plane() #掃L
@@ -89,10 +88,26 @@ motorB.run_angle(300, -90*3, then=Stop.HOLD, wait=True)#底盤逆時針轉90度
 roll_cube()
 scan_plane() #掃D
 
+simulation_cube3d =
+str(cube3d[0][7]) + str(cube3d[0][8]) + str(cube3d[0][1]) + str(cube3d[0][6]) + str(cube3d[0][0]) + str(cube3d[0][2]) + str(cube3d[0][5]) + str(cube3d[0][4]) + str(cube3d[0][3])
++str(cube3d[1][3]) + str(cube3d[1][4]) + str(cube3d[1][5]) + str(cube3d[1][2]) + str(cube3d[1][0]) + str(cube3d[1][6]) + str(cube3d[1][1]) + str(cube3d[1][8]) + str(cube3d[1][7])
++str(cube3d[2][5]) + str(cube3d[2][6]) + str(cube3d[2][7]) + str(cube3d[2][4]) + str(cube3d[2][0]) + str(cube3d[2][8]) + str(cube3d[2][3]) + str(cube3d[2][2]) + str(cube3d[2][1])
++str(cube3d[3][5]) + str(cube3d[3][6]) + str(cube3d[3][7]) + str(cube3d[3][4]) + str(cube3d[3][0]) + str(cube3d[3][8]) + str(cube3d[3][3]) + str(cube3d[3][2]) + str(cube3d[3][1])
++str(cube3d[4][5]) + str(cube3d[4][6]) + str(cube3d[4][7]) + str(cube3d[4][4]) + str(cube3d[4][0]) + str(cube3d[4][8]) + str(cube3d[4][3]) + str(cube3d[4][2]) + str(cube3d[4][1])
++str(cube3d[5][7]) + str(cube3d[5][8]) + str(cube3d[5][1]) + str(cube3d[5][6]) + str(cube3d[5][0]) + str(cube3d[5][2]) + str(cube3d[5][5]) + str(cube3d[5][4]) + str(cube3d[5][3])
 
-print(cube3d)
+kociemba_cube3d =
+str(cube3d[0][7]) + str(cube3d[0][8]) + str(cube3d[0][1]) + str(cube3d[0][6]) + str(cube3d[0][0]) + str(cube3d[0][2]) + str(cube3d[0][5]) + str(cube3d[0][4]) + str(cube3d[0][3])
++str(cube3d[3][5]) + str(cube3d[3][6]) + str(cube3d[3][7]) + str(cube3d[3][4]) + str(cube3d[3][0]) + str(cube3d[3][8]) + str(cube3d[3][3]) + str(cube3d[3][2]) + str(cube3d[3][1])
++str(cube3d[2][5]) + str(cube3d[2][6]) + str(cube3d[2][7]) + str(cube3d[2][4]) + str(cube3d[2][0]) + str(cube3d[2][8]) + str(cube3d[2][3]) + str(cube3d[2][2]) + str(cube3d[2][1])
++str(cube3d[5][7]) + str(cube3d[5][8]) + str(cube3d[5][1]) + str(cube3d[5][6]) + str(cube3d[5][0]) + str(cube3d[5][2]) + str(cube3d[5][5]) + str(cube3d[5][4]) + str(cube3d[5][3])
++str(cube3d[1][3]) + str(cube3d[1][4]) + str(cube3d[1][5]) + str(cube3d[1][2]) + str(cube3d[1][0]) + str(cube3d[1][6]) + str(cube3d[1][1]) + str(cube3d[1][8]) + str(cube3d[1][7])
++str(cube3d[4][5]) + str(cube3d[4][6]) + str(cube3d[4][7]) + str(cube3d[4][4]) + str(cube3d[4][0]) + str(cube3d[4][8]) + str(cube3d[4][3]) + str(cube3d[4][2]) + str(cube3d[4][1])
 
-
+print(kociemba_cube3d)
+print()
+print(simulation_cube3d)
+print()
 
 #wait(5000)
 #ev3.screen.clear()
