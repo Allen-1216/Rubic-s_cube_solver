@@ -56,7 +56,7 @@ class Cube:
         self.swap(4, 3, 2, 1, 8, 8, 8, 8)
 
 def move(cube, m, x):
-    # Need to do 3 swaps based on the move
+    # 4面同位置的單顆交換
     if (m == 'U'):
         cube.faceMove(x)
         cube.swap(1, 2, 3, 4, 0, 0, 0, 0)

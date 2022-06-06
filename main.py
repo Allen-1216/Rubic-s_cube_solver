@@ -7,7 +7,7 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 import simulation_cube
-#import kociemba
+import kociemba
 
 
 ev3 = EV3Brick()
@@ -78,7 +78,7 @@ def roll_cube(): #馬達A手臂翻轉方塊
 
 
 #motorC.run_until_stalled(300,then=Stop.HOLD, duty_limit=None) #測試用 顏色感應器後退到最底
-
+'''
 #掃描6面
 scan_plane() #掃U
 motorB.run_angle(300, 180*3, then=Stop.HOLD, wait=True)#底盤順時針轉180度
@@ -122,6 +122,7 @@ simulation_cube3d = \
 +[str(cube3d[4][5]) + str(cube3d[4][6]) + str(cube3d[4][7]) + str(cube3d[4][4]) + str(cube3d[4][0]) + str(cube3d[4][8]) + str(cube3d[4][3]) + str(cube3d[4][2]) + str(cube3d[4][1])]\
 +[str(cube3d[5][7]) + str(cube3d[5][8]) + str(cube3d[5][1]) + str(cube3d[5][6]) + str(cube3d[5][0]) + str(cube3d[5][2]) + str(cube3d[5][5]) + str(cube3d[5][4]) + str(cube3d[5][3])]
 
+
 #符合kociemba演算法排序的陣列
 kociemba_cube3d = \
  str(cube3d[0][5]) + str(cube3d[0][6]) + str(cube3d[0][7]) + str(cube3d[0][4]) + str(cube3d[0][0]) + str(cube3d[0][8]) + str(cube3d[0][3]) + str(cube3d[0][2]) + str(cube3d[0][1])\
@@ -138,13 +139,13 @@ for i in range(6):
         print(simulation_cube3d[i][j], end=' ')
     print()
 
+
 print()
 
 print(kociemba_cube3d)
-print()
+'''
 
-
-#print("解法: " + kociemba.solve("BBURUDBFUFFFRRFUUFLULUFUDLRRDBBDBDBLUDDFLLRRBRLLLBRDDF")) debug中
+print("解法: " + kociemba.solve("BBURUDBFUFFFRRFUUFLULUFUDLRRDBBDBDBLUDDFLLRRBRLLLBRDDF")) #debug中
 
 #wait(5000)
 #ev3.screen.clear()
